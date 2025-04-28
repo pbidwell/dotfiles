@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# deploy.sh - Deploy selected dotfiles onto the machine
+# Supports: tmux, zsh
+
+set -e
+
+# Set your source directory (your dotfiles repo)
+DOTFILES_REPO="$HOME/dotfiles"
+
+# List of files to deploy
+declare -A DOTFILES_TO_DEPLOY=(
+  ["$DOTFILES_REPO/tmux/.tmux.conf"]="$HOME/.tmux.conf"
+  ["$DOTFILES_REPO/zsh/.zshrc"]="$HOME/.zshrc"
+)
+
+# Optional: entire .zsh directory (like custom themes, functions)
+ZSH_CUSTOM_SRC="$DOTFILES_REPO/zsh/.zsh"
+ZSH_CUSTOM_DEST="$HOME/.zsh"
+
+echo "Deploying dotfiles..."
+
+# Copy individual files
+for src in "${!DOTFILES_TO_DEPLOY[@]}"; do
+  dest="${DOTFILES_TO_DEPLOY[$src]}"
+  if [ -f "$src" ]; then
+    echo "Copying $src → $dest"
+    cp "$src" "$dest"
+  else
+    echo "Warning: $src not found in repo. Skipping."
+  fi
+done
+
+# Copy entire .zsh directory if it exists
+if [ -d "$ZSH_CUSTOM_SRC" ]; then
+  echo "Copying $ZSH_CUSTOM_SRC → $ZSH_CUSTOM_DEST"
+  rsync -av --delete "$ZSH_CUSTOM_SRC/" "$ZSH_CUSTOM_DEST/"
+else
+  echo "Warning: $ZSH_CUSTOM_SRC not found. Skipping directory sync."
+fi
+
+echo "Deployment complete."
