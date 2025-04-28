@@ -18,6 +18,10 @@ declare -A DOTFILES_TO_HARVEST=(
 ZSH_CUSTOM_DIR="$HOME/.zsh"
 ZSH_CUSTOM_DEST="$DOTFILES_REPO/zsh/.zsh"
 
+# Optional: entire .oh-my-zsh directory
+OMZSH_CUSTOM_DIR="$HOME/.oh-my-zsh"
+OMZSH_CUSTOM_DEST="$DOTFILES_REPO/zsh/.oh-my-zsh"
+
 # Make sure destination folders exist
 mkdir -p "$DOTFILES_REPO/tmux"
 mkdir -p "$DOTFILES_REPO/zsh"
@@ -41,6 +45,14 @@ if [ -d "$ZSH_CUSTOM_DIR" ]; then
   rsync -av --delete "$ZSH_CUSTOM_DIR/" "$ZSH_CUSTOM_DEST/"
 else
   echo "Warning: $ZSH_CUSTOM_DIR not found. Skipping directory sync."
+fi
+
+# Copy entire .oh-my-zsh directory if it exists
+if [ -d "$OMZSH_CUSTOM_DIR" ]; then
+  echo "Copying $OMZSH_CUSTOM_DIR → $OMZSH_CUSTOM_DEST"
+  rsync -av --delete "$OMZSH_CUSTOM_DIR/" "$OMZSH_CUSTOM_DEST/"
+else
+  echo "Warning: $OMZSH_CUSTOM_DIR not found. Skipping directory sync."
 fi
 
 echo "Harvest complete."

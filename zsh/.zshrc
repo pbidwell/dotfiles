@@ -115,7 +115,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Custom
 set -o vi
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+source ~/dev/powerlevel10k/powerlevel10k.zsh-theme
 export PATH=$PATH:/usr/local/go/bin
 export TERM=xterm-256color
 

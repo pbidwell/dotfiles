@@ -14,9 +14,13 @@ declare -A DOTFILES_TO_DEPLOY=(
   ["$DOTFILES_REPO/zsh/.zshrc"]="$HOME/.zshrc"
 )
 
-# Optional: entire .zsh directory (like custom themes, functions)
+# Optional: entire .zsh directory
 ZSH_CUSTOM_SRC="$DOTFILES_REPO/zsh/.zsh"
 ZSH_CUSTOM_DEST="$HOME/.zsh"
+
+# Optional: entire .oh-my-zsh directory
+OMZSH_CUSTOM_SRC="$DOTFILES_REPO/zsh/.oh-my-zsh"
+OMZSH_CUSTOM_DEST="$HOME/.oh-my-zsh"
 
 echo "Deploying dotfiles..."
 
@@ -37,6 +41,16 @@ if [ -d "$ZSH_CUSTOM_SRC" ]; then
   rsync -av --delete "$ZSH_CUSTOM_SRC/" "$ZSH_CUSTOM_DEST/"
 else
   echo "Warning: $ZSH_CUSTOM_SRC not found. Skipping directory sync."
+fi
+
+echo "Deployment complete."
+
+# Copy entire .zsh directory if it exists
+if [ -d "$OMZSH_CUSTOM_SRC" ]; then
+  echo "Copying $OMZSH_CUSTOM_SRC → $OMZSH_CUSTOM_DEST"
+  rsync -av --delete "$OMZSH_CUSTOM_SRC/" "$OMZSH_CUSTOM_DEST/"
+else
+  echo "Warning: $OMZSH_CUSTOM_SRC not found. Skipping directory sync."
 fi
 
 echo "Deployment complete."
