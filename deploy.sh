@@ -6,7 +6,7 @@
 set -e
 
 # Set your source directory (your dotfiles repo)
-DOTFILES_REPO="$HOME/dotfiles"
+DOTFILES_REPO="$HOME/dev/dotfiles"
 
 # List of files to deploy
 declare -A DOTFILES_TO_DEPLOY=(
