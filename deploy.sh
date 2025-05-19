@@ -22,6 +22,9 @@ ZSH_CUSTOM_DEST="$HOME/.zsh"
 OMZSH_CUSTOM_SRC="$DOTFILES_REPO/zsh/.oh-my-zsh"
 OMZSH_CUSTOM_DEST="$HOME/.oh-my-zsh"
 
+TMUX_CUSTOM_SRC="$DOTFILES_REPO/tmux/config"
+TMUX_CUSTOM_DEST="$HOME/.config/tmux/"
+
 echo "Deploying dotfiles..."
 
 # Copy individual files
@@ -45,12 +48,20 @@ fi
 
 echo "Deployment complete."
 
-# Copy entire .zsh directory if it exists
+# Copy entire .oh-my-zsh directory if it exists
 if [ -d "$OMZSH_CUSTOM_SRC" ]; then
   echo "Copying $OMZSH_CUSTOM_SRC → $OMZSH_CUSTOM_DEST"
   rsync -av --delete "$OMZSH_CUSTOM_SRC/" "$OMZSH_CUSTOM_DEST/"
 else
   echo "Warning: $OMZSH_CUSTOM_SRC not found. Skipping directory sync."
+fi
+
+# Copy entire tmux config directory if it exists
+if [ -d "$TMUX_CUSTOM_SRC" ]; then
+  echo "Copying $TMUX_CUSTOM_SRC → $TMUX_CUSTOM_DEST"
+  rsync -av --delete "$TMUX_CUSTOM_SRC/" "$TMUX_CUSTOM_DEST/"
+else
+  echo "Warning: $TMUX_CUSTOM_SRC not found. Skipping directory sync."
 fi
 
 echo "Deployment complete."

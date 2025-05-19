@@ -116,7 +116,7 @@ source $ZSH/oh-my-zsh.sh
 # Custom
 set -o vi
 source ~/dev/powerlevel10k/powerlevel10k.zsh-theme
-export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH
 export TERM=xterm-256color
 
 alias zshconfig="nvim ~/.zshrc"
@@ -127,7 +127,20 @@ alias leetcode="pushd ~/dev/ && nvim leetcode.nvim && popd"
 alias gs="git status"
 alias vim="nvim"
 
-PATH="$PATH:/home/deck/bin"
+code() {
+  if [[ ! -e ~/dev/$1 ]] 
+  then
+      echo "Available projects:"
+      ls ~/dev
+      return
+  fi
+  pushd ~/dev/$1
+  nvim
+  popd
+}
+
+GOPATH="$HOME/go"
+PATH="$PATH:$HOME/bin:$HOME/bin/nvim-linux-x86_64/bin:$HOME/bin/go/bin/:$GOPATH/bin"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

@@ -22,6 +22,9 @@ ZSH_CUSTOM_DEST="$DOTFILES_REPO/zsh/.zsh"
 OMZSH_CUSTOM_DIR="$HOME/.oh-my-zsh"
 OMZSH_CUSTOM_DEST="$DOTFILES_REPO/zsh/.oh-my-zsh"
 
+TMUX_CUSTOM_DIR="$HOME/.config/tmux/"
+TMUX_CUSTOM_DEST="$DOTFILES_REPO/tmux/config"
+
 # Make sure destination folders exist
 mkdir -p "$DOTFILES_REPO/tmux"
 mkdir -p "$DOTFILES_REPO/zsh"
@@ -53,6 +56,14 @@ if [ -d "$OMZSH_CUSTOM_DIR" ]; then
   rsync -av --delete "$OMZSH_CUSTOM_DIR/" "$OMZSH_CUSTOM_DEST/"
 else
   echo "Warning: $OMZSH_CUSTOM_DIR not found. Skipping directory sync."
+fi
+
+# Copy entire tmux config directory if it exists
+if [ -d "$TMUX_CUSTOM_DIR" ]; then
+  echo "Copying $TMUX_CUSTOM_DIR → $TMUX_CUSTOM_DEST"
+  rsync -av --delete "$TMUX_CUSTOM_DIR/" "$TMUX_CUSTOM_DEST/"
+else
+  echo "Warning: $TMUX_CUSTOM_DIR not found. Skipping directory sync."
 fi
 
 echo "Harvest complete."
